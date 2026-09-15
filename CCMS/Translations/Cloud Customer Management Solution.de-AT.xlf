@@ -67,7 +67,6 @@
           <source>Specifies the unique identifier of the Microsoft Entra application.</source>
           <target>Gibt die eindeutige ID der Microsoft Entra-Anwendung an.</target>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="NAB AL Tool Refresh Xlf" annotates="general" priority="3">New translation.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC App Secret Expiry - Field Application ID - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Table 4113260371 - Field 4229006017 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
@@ -80,7 +79,6 @@
           <source>Specifies the name of the Microsoft Entra application.</source>
           <target>Gibt den Namen der Microsoft Entra-Anwendung an.</target>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="NAB AL Tool Refresh Xlf" annotates="general" priority="3">New translation.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC App Secret Expiry - Field Application Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Table 4113260371 - Field 3726907335 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
@@ -93,7 +91,6 @@
           <source>Specifies the customer number associated with this application secret.</source>
           <target>Gibt die Kundennummer an, die diesem Anwendungsgeheimnis zugeordnet ist.</target>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="NAB AL Tool Refresh Xlf" annotates="general" priority="3">New translation.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC App Secret Expiry - Field Customer No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Table 4113260371 - Field 4190130733 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
@@ -106,7 +103,6 @@
           <source>Specifies the date and time when the application secret expires.</source>
           <target>Gibt Datum und Uhrzeit an, zu dem das Secret abläuft.</target>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="NAB AL Tool Refresh Xlf" annotates="general" priority="3">New translation.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC App Secret Expiry - Field Expiration Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Table 4113260371 - Field 1579714849 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
@@ -155,14 +151,12 @@
           <source>Specifies the name of the Business Central tenant that owns this application secret.</source>
           <target>Gibt den Namen des Business Central-Mandanten an, dem dieses Secret gehört.</target>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="NAB AL Tool Refresh Xlf" annotates="general" priority="3">New translation.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC App Secret Expiry - Field Tenant Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Table 4113260371 - Field 705672093 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Tenant Name</source>
           <target>Tenant Name</target>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="NAB AL Tool Refresh Xlf" annotates="general" priority="3">Suggested translation inserted.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC App Secret Expiry - Field Tenant Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Codeunit 3994498161 - Method 2502477622 - NamedType 1078089387" size-unit="char" translate="yes" xml:space="preserve">
@@ -3677,6 +3671,18 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC Installed App - Field Tenant ID - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3957244876 - Field 705672093 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the name of the tenant where the app is installed.</source>
+          <target>Gibt den Namen des Mandanten an, auf dem die App installiert ist.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC Installed App - Field Tenant Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Table 3957244876 - Field 705672093 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tenant Name</source>
+          <target>Tenant-Name</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC Installed App - Field Tenant Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 348982333 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>PTE Object Range</source>
           <target>PTE Objekt Range</target>
@@ -3942,16 +3948,40 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Installed Apps List - Action UpdateApp - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1896412547 - Action 103537446 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Update the selected apps (multiple) to the latest version.</source>
+          <source>Update the selected apps immediately to the latest version.</source>
           <target>Aktualisieren Sie die ausgewählten Apps (mehrere) auf die neueste Version.</target>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Installed Apps List - Action UpdateSelectedApps - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1896412547 - Action 103537446 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Update Selected Apps</source>
-          <target>Ausgewählte App aktualisieren</target>
+          <source>Update Selected Apps Now</source>
+          <target>Ausgewählte App jetzt aktualisieren</target>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Installed Apps List - Action UpdateSelectedApps - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1896412547 - Action 103537446 - Method 1377591017 - NamedType 1083560048" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 of %2 selected apps could not be scheduled for update. The remaining apps were processed.</source>
+          <target>%1 von %2 ausgewählten Apps konnten nicht für ein Update geplant werden. Die verbleibenden Apps wurden verarbeitet.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = Failed app count, %2 = Selected app count</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Installed Apps List - Action UpdateSelectedApps - Method OnAction - NamedType UpdateSummaryMsg</note>
+        </trans-unit>
+        <trans-unit id="Page 1896412547 - Action 3575438460 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Schedule the selected apps to update in the environment update window.</source>
+          <target>Die ausgewählten Apps für ein Update im Umgebungsupdate-Fenster planen.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Installed Apps List - Action UpdateSelectedAppsInUpdateWindow - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1896412547 - Action 3575438460 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Update Selected Apps in Update Window</source>
+          <target>Ausgewählte Apps im Update-Fenster aktualisieren</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Installed Apps List - Action UpdateSelectedAppsInUpdateWindow - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1896412547 - Action 3575438460 - Method 1377591017 - NamedType 1083560048" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 of %2 selected apps could not be scheduled for update. The remaining apps were processed.</source>
+          <target>%1 von %2 ausgewählten Apps konnten nicht für ein Update geplant werden. Die verbleibenden Apps wurden verarbeitet.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = Failed app count, %2 = Selected app count</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Installed Apps List - Action UpdateSelectedAppsInUpdateWindow - Method OnAction - NamedType UpdateSummaryMsg</note>
         </trans-unit>
         <trans-unit id="Page 1896412547 - View 2109889454 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Apps with Available Updates</source>
@@ -4649,6 +4679,24 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Admin Center Cues - Control Updates (7 Days) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1192667575 - Control 1502400274 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Operations</source>
+          <target>Arbeitsgänge</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Admin Center Cues - Control Operations - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1192667575 - Control 35295814 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Number of failed operations created today.</source>
+          <target>Anzahl der heute erstellten fehlgeschlagenen Arbeitsgänge.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Admin Center Cues - Control Failed Operations Today - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1192667575 - Control 35295814 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Failed Today</source>
+          <target>Fehlgeschlagen heute</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Admin Center Cues - Control Failed Operations Today - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1192667575 - Control 873771301 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Overview</source>
           <target>Matrix</target>
@@ -4665,7 +4713,6 @@
           <source>Secrets</source>
           <target>Secrets</target>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="NAB AL Tool Refresh Xlf" annotates="general" priority="3">Suggested translation inserted.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Admin Center Cues - Control Secrets - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1192667575 - Control 594515065 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
@@ -6843,7 +6890,7 @@
         </trans-unit>
         <trans-unit id="Page 1431185537 - Action 2948837889 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Starts a background session for each non-blocked tenant to fetch the list of environments.</source>
-          <target>Startet für jeden nicht blockierten Mandanten eine Hintergrundsitzung, um die Umgebungsliste abzurufen</target>
+          <target>Startet eine Hintergrundsession für jeden nicht blockierten Tenant, um die Liste der Umgebungen abzurufen.</target>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Tenant List - Action GetAllEnvironmentsBackground - Property ToolTip</note>
         </trans-unit>
@@ -6855,19 +6902,19 @@
         </trans-unit>
         <trans-unit id="Page 1431185537 - Action 2948837889 - Method 1377591017 - NamedType 2294662597" size-unit="char" translate="yes" xml:space="preserve">
           <source>This will delete all locally stored environment data for %1 tenant(s) and start a background session to load it again. Continue?</source>
-          <target>Dadurch werden alle lokal gespeicherten Umgebungsdaten für %1 Mandant(en) gelöscht und eine Hintergrundsitzung gestartet, um sie erneut zu laden. Fortfahren?</target>
+          <target>Dies löscht alle lokal gespeicherten Umgebungsdaten für %1 Mandant(en) und startet eine Hintergrundsession, um sie erneut zu laden. Fortfahren?</target>
           <note from="Developer" annotates="general" priority="2">%1 = Number of tenants</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Tenant List - Action GetAllEnvironmentsBackground - Method OnAction - NamedType ConfirmMsg</note>
         </trans-unit>
         <trans-unit id="Page 1431185537 - Action 2948837889 - Method 1377591017 - NamedType 386523861" size-unit="char" translate="yes" xml:space="preserve">
           <source>No tenants found.</source>
-          <target>Keine Tenants gefunden.</target>
+          <target>Keine Mandanten gefunden.</target>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Tenant List - Action GetAllEnvironmentsBackground - Method OnAction - NamedType NoTenantsErr</note>
         </trans-unit>
         <trans-unit id="Page 1431185537 - Action 2948837889 - Method 1377591017 - NamedType 3896396820" size-unit="char" translate="yes" xml:space="preserve">
           <source>Background retrieval of environments started for %1 tenant(s).</source>
-          <target>Abruf der Umgebungen im Hintergrund für %1 Tenant(s) gestartet.</target>
+          <target>Start der Hintergrundabfrage der Umgebungen für %1 Mandant(en).</target>
           <note from="Developer" annotates="general" priority="2">%1 = Number of tenants</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Tenant List - Action GetAllEnvironmentsBackground - Method OnAction - NamedType StartedMsg</note>
         </trans-unit>

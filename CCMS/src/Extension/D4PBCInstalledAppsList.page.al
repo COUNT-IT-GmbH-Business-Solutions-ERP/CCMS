@@ -20,6 +20,9 @@ page 62008 "D4P BC Installed Apps List"
         {
             repeater(GroupName)
             {
+                field("Tenant Name"; Rec."Tenant Name")
+                {
+                }
                 field("App Name"; Rec."App Name")
                 {
                     StyleExpr = UpdateAvailableStyleExpr;
@@ -128,20 +131,48 @@ page 62008 "D4P BC Installed Apps List"
             }
             action(UpdateSelectedApps)
             {
-                Caption = 'Update Selected Apps';
+                Caption = 'Update Selected Apps Now';
                 Image = UpdateXML;
-                ToolTip = 'Update the selected apps (multiple) to the latest version.';
+                ToolTip = 'Update the selected apps immediately to the latest version.';
                 trigger OnAction()
                 var
-                    BCEnvironment: Record "D4P BC Environment";
+                    FailedUpdateCount, SelectedAppCount : Integer;
                     EnvironmentManagement: Codeunit "D4P BC Environment Mgt";
+                    UpdateSummaryMsg: Label '%1 of %2 selected apps could not be scheduled for update. The remaining apps were processed.', Comment = '%1 = Failed app count, %2 = Selected app count';
                 begin
-                    BCEnvironment.Get(Rec."Customer No.", Rec."Tenant ID", Rec."Environment Name");
                     CurrPage.SetSelectionFilter(Rec);
                     if Rec.FindSet() then
                         repeat
-                            EnvironmentManagement.UpdateApp(BCEnvironment, Rec."App ID", true);
+                            SelectedAppCount += 1;
+                            if not EnvironmentManagement.TryUpdateSelectedApp(Rec, false) then
+                                FailedUpdateCount += 1;
                         until Rec.Next() = 0;
+
+                    if FailedUpdateCount > 0 then
+                        Message(UpdateSummaryMsg, FailedUpdateCount, SelectedAppCount);
+                end;
+            }
+            action(UpdateSelectedAppsInUpdateWindow)
+            {
+                Caption = 'Update Selected Apps in Update Window';
+                Image = UpdateXML;
+                ToolTip = 'Schedule the selected apps to update in the environment update window.';
+                trigger OnAction()
+                var
+                    FailedUpdateCount, SelectedAppCount : Integer;
+                    EnvironmentManagement: Codeunit "D4P BC Environment Mgt";
+                    UpdateSummaryMsg: Label '%1 of %2 selected apps could not be scheduled for update. The remaining apps were processed.', Comment = '%1 = Failed app count, %2 = Selected app count';
+                begin
+                    CurrPage.SetSelectionFilter(Rec);
+                    if Rec.FindSet() then
+                        repeat
+                            SelectedAppCount += 1;
+                            if not EnvironmentManagement.TryUpdateSelectedApp(Rec, true) then
+                                FailedUpdateCount += 1;
+                        until Rec.Next() = 0;
+
+                    if FailedUpdateCount > 0 then
+                        Message(UpdateSummaryMsg, FailedUpdateCount, SelectedAppCount);
                 end;
             }
             action(DeleteAll)
@@ -183,6 +214,9 @@ page 62008 "D4P BC Installed Apps List"
             actionref(UpdateSelectedAppsPromoted; UpdateSelectedApps)
             {
             }
+            actionref(UpdateSelectedAppsInUpdateWindowPromoted; UpdateSelectedAppsInUpdateWindow)
+            {
+            }
             actionref(DeleteAllPromoted; DeleteAll)
             {
             }
@@ -216,4 +250,5 @@ page 62008 "D4P BC Installed Apps List"
         else
             UpdateAvailableStyleExpr := Format(PageStyle::Standard);
     end;
+
 }

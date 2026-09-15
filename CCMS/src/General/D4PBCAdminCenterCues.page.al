@@ -6,6 +6,7 @@ using D4P.CCMS.Customer;
 using D4P.CCMS.Environment;
 using D4P.CCMS.Extension;
 using D4P.CCMS.Tenant;
+using D4P.CCMS.Operations;
 
 page 62034 "D4P BC Admin Center Cues"
 {
@@ -185,6 +186,25 @@ page 62034 "D4P BC Admin Center Cues"
                     end;
                 }
             }
+            cuegroup(Operations)
+            {
+                Caption = 'Operations';
+
+                field("Failed Operations Today"; FailedOperationsToday)
+                {
+                    Caption = 'Failed Today';
+                    Style = Unfavorable;
+                    ToolTip = 'Number of failed operations created today.';
+
+                    trigger OnDrillDown()
+                    var
+                        Operation: Record "D4P BC Environment Operation";
+                    begin
+                        Rec.FilterFailedOperationsToday(Operation);
+                        Page.Run(Page::"D4P BC Environment Operations", Operation);
+                    end;
+                }
+            }
         }
     }
 
@@ -203,8 +223,9 @@ page 62034 "D4P BC Admin Center Cues"
         Updates7Days := Rec.GetNumberOfEnvironmentsForUpdates(7);
         Updates14Days := Rec.GetNumberOfEnvironmentsForUpdates(14);
         AppSecretsExpiring30Days := Rec.GetNumberOfAppSecretsExpiringInDays(30);
+        FailedOperationsToday := Rec.GetNumberOfFailedOperationsToday();
     end;
 
     var
-        Updates7Days, Updates14Days, AppSecretsExpiring30Days : Integer;
+        Updates7Days, Updates14Days, AppSecretsExpiring30Days, FailedOperationsToday : Integer;
 }

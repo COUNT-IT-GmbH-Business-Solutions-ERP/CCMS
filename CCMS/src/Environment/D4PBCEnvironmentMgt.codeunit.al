@@ -647,6 +647,15 @@ codeunit 62000 "D4P BC Environment Mgt"
             Message(AppUpdateScheduledMsg, InstalledApp."App Name", InstalledApp."Available Update Version");
     end;
 
+    [TryFunction]
+    procedure TryUpdateSelectedApp(var InstalledApp: Record "D4P BC Installed App"; UseEnvironmentUpdateWindow: Boolean)
+    var
+        BCEnvironment: Record "D4P BC Environment";
+    begin
+        BCEnvironment.Get(InstalledApp."Customer No.", InstalledApp."Tenant ID", InstalledApp."Environment Name");
+        UpdateApp(BCEnvironment, InstalledApp."App ID", true);
+    end;
+
     procedure CreateNewBCEnvironment(var BCTenant: Record "D4P BC Tenant"; EnvironmentName: Text[100]; Localization: Code[2]; EnvironmentType: Enum "D4P Environment Type")
     var
         JsonObject: JsonObject;

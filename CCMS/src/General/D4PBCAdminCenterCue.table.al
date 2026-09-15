@@ -6,6 +6,7 @@ using D4P.CCMS.Tenant;
 using D4P.CCMS.Environment;
 using D4P.CCMS.Extension;
 using D4P.CCMS.Capacity;
+using D4P.CCMS.Operations;
 
 table 62047 "D4P BC Admin Center Cue"
 {
@@ -148,5 +149,19 @@ table 62047 "D4P BC Admin Center Cue"
     begin
         FilterAppSecretsExpiringInDays(AppSecretExpiry, NoOfDays);
         exit(AppSecretExpiry.Count());
+    end;
+
+    procedure FilterFailedOperationsToday(var Operation: Record "D4P BC Environment Operation")
+    begin
+        Operation.SetRange(Status, 'Failed');
+        Operation.SetRange("Created On", CreateDateTime(Today(), 0T), CreateDateTime(Today(), 235959T));
+    end;
+
+    procedure GetNumberOfFailedOperationsToday(): Integer
+    var
+        Operation: Record "D4P BC Environment Operation";
+    begin
+        FilterFailedOperationsToday(Operation);
+        exit(Operation.Count());
     end;
 }

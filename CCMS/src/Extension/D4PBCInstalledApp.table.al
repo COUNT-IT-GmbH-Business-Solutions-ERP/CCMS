@@ -1,6 +1,7 @@
 namespace D4P.CCMS.Extension;
 
 using D4P.CCMS.Customer;
+using D4P.CCMS.Tenant;
 
 table 62003 "D4P BC Installed App"
 {
@@ -21,6 +22,14 @@ table 62003 "D4P BC Installed App"
         {
             Caption = 'Tenant ID';
             ToolTip = 'Specifies the tenant identifier associated with the app.';
+        }
+        field(17; "Tenant Name"; Text[100])
+        {
+            CalcFormula = lookup("D4P BC Tenant"."Tenant Name" where("Customer No." = field("Customer No."), "Tenant ID" = field("Tenant ID")));
+            Caption = 'Tenant Name';
+            Editable = false;
+            FieldClass = FlowField;
+            ToolTip = 'Specifies the name of the tenant where the app is installed.';
         }
         field(3; "Environment Name"; Text[30])
         {
