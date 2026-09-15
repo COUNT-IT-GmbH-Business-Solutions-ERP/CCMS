@@ -5,5 +5,15 @@
   "bcptTestFolders": [],
   "enableCodeCop": true,
   "enableUICop": true,
-  "rulesetFile": "CCMS/.vscode/app.ruleset.json"
+  "rulesetFile": "CCMS/.vscode/app.ruleset.json",
+  "DeployToQA": {
+    "EnvironmentName": "CITSandbox",
+    "continuousDeployment": true,
+    "SyncMode": "ForceSync"
+  },
+  "DeployToPROD": {
+    "EnvironmentName": "Production",
+    "continuousDeployment": false,
+    "SyncMode": "ForceSync"
+  },
 }
