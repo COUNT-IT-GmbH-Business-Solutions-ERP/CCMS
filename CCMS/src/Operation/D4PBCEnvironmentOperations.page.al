@@ -10,6 +10,7 @@ page 62028 "D4P BC Environment Operations"
     SourceTable = "D4P BC Environment Operation";
     Caption = 'D365BC Environment Operations';
     Editable = false;
+    SourceTableView = sorting("Created On") order(descending);
 
     layout
     {
@@ -76,7 +77,7 @@ page 62028 "D4P BC Environment Operations"
                     EnvironmentContextMissingMsg: Label 'No environment context set.';
                 begin
                     if CurrentEnvironment.Name <> '' then
-                        OperationsHelper.GetEnvironmentOperations(CurrentEnvironment."Customer No.", CurrentEnvironment."Tenant ID", CurrentEnvironment.Name)
+                        OperationsHelper.GetEnvironmentOperations(CurrentEnvironment."Customer No.", CurrentEnvironment."Tenant ID", CurrentEnvironment.Name, true)
                     else
                         Message(EnvironmentContextMissingMsg);
                     CurrPage.Update(false);
@@ -179,4 +180,5 @@ page 62028 "D4P BC Environment Operations"
                 StatusStyle := Format(PageStyle::Standard);
         end;
     end;
+
 }

@@ -1,10 +1,12 @@
 namespace D4P.CCMS.General;
 
+using D4P.CCMS.Auth;
 using D4P.CCMS.Capacity;
 using D4P.CCMS.Customer;
 using D4P.CCMS.Environment;
 using D4P.CCMS.Extension;
 using D4P.CCMS.Tenant;
+using D4P.CCMS.Operations;
 
 page 62034 "D4P BC Admin Center Cues"
 {
@@ -165,6 +167,44 @@ page 62034 "D4P BC Admin Center Cues"
                     end;
                 }
             }
+            cuegroup(Secrets)
+            {
+                Caption = 'Secrets';
+
+                field("App Secrets Expiring (30 Days)"; AppSecretsExpiring30Days)
+                {
+                    Caption = 'App Secrets Expiring (30 Days)';
+                    Style = Unfavorable;
+                    ToolTip = 'Shows application secrets that expire within the next 30 days.';
+
+                    trigger OnDrillDown()
+                    var
+                        AppSecretExpiry: Record "D4P BC App Secret Expiry";
+                    begin
+                        Rec.FilterAppSecretsExpiringInDays(AppSecretExpiry, 30);
+                        Page.Run(Page::"D4P BC App Secret Expiries", AppSecretExpiry);
+                    end;
+                }
+            }
+            cuegroup(Operations)
+            {
+                Caption = 'Operations';
+
+                field("Failed Operations Today"; FailedOperationsToday)
+                {
+                    Caption = 'Failed Today';
+                    Style = Unfavorable;
+                    ToolTip = 'Number of failed operations created today.';
+
+                    trigger OnDrillDown()
+                    var
+                        Operation: Record "D4P BC Environment Operation";
+                    begin
+                        Rec.FilterFailedOperationsToday(Operation);
+                        Page.Run(Page::"D4P BC Environment Operations", Operation);
+                    end;
+                }
+            }
         }
     }
 
@@ -182,8 +222,10 @@ page 62034 "D4P BC Admin Center Cues"
         "Tenants Count", "Customers Count", "Active Environments", "Active Production Environ.", "Active Sandbox Environ.", "Apps w. Av. upd. No Microsoft");
         Updates7Days := Rec.GetNumberOfEnvironmentsForUpdates(7);
         Updates14Days := Rec.GetNumberOfEnvironmentsForUpdates(14);
+        AppSecretsExpiring30Days := Rec.GetNumberOfAppSecretsExpiringInDays(30);
+        FailedOperationsToday := Rec.GetNumberOfFailedOperationsToday();
     end;
 
     var
-        Updates7Days, Updates14Days : Integer;
+        Updates7Days, Updates14Days, AppSecretsExpiring30Days, FailedOperationsToday : Integer;
 }

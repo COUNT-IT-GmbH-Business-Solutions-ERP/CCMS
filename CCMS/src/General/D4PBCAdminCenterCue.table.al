@@ -1,10 +1,12 @@
 namespace D4P.CCMS.General;
 
+using D4P.CCMS.Auth;
 using D4P.CCMS.Customer;
 using D4P.CCMS.Tenant;
 using D4P.CCMS.Environment;
 using D4P.CCMS.Extension;
 using D4P.CCMS.Capacity;
+using D4P.CCMS.Operations;
 
 table 62047 "D4P BC Admin Center Cue"
 {
@@ -131,5 +133,35 @@ table 62047 "D4P BC Admin Center Cue"
     begin
         FilterForUpdatesInDays(BCEnvironment, NoOfDays);
         exit(BCEnvironment.Count());
+    end;
+
+    procedure FilterAppSecretsExpiringInDays(var AppSecretExpiry: Record "D4P BC App Secret Expiry"; NoOfDays: Integer)
+    var
+        EndDate: DateTime;
+    begin
+        EndDate := CreateDateTime(CalcDate(StrSubstNo('<%1D>', NoOfDays), Today()), 235959T);
+        AppSecretExpiry.SetFilter("Expiration Date", '%1..%2', CreateDateTime(Today(), 0T), EndDate);
+    end;
+
+    procedure GetNumberOfAppSecretsExpiringInDays(NoOfDays: Integer): Integer
+    var
+        AppSecretExpiry: Record "D4P BC App Secret Expiry";
+    begin
+        FilterAppSecretsExpiringInDays(AppSecretExpiry, NoOfDays);
+        exit(AppSecretExpiry.Count());
+    end;
+
+    procedure FilterFailedOperationsToday(var Operation: Record "D4P BC Environment Operation")
+    begin
+        Operation.SetRange(Status, 'Failed');
+        Operation.SetRange("Created On", CreateDateTime(Today(), 0T), CreateDateTime(Today(), 235959T));
+    end;
+
+    procedure GetNumberOfFailedOperationsToday(): Integer
+    var
+        Operation: Record "D4P BC Environment Operation";
+    begin
+        FilterFailedOperationsToday(Operation);
+        exit(Operation.Count());
     end;
 }

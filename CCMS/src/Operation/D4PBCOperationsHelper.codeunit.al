@@ -15,7 +15,7 @@ codeunit 62025 "D4P BC Operations Helper"
     /// <param name="CustomerNo">Customer number.</param>
     /// <param name="TenantID">Tenant ID.</param>
     /// <param name="EnvironmentName">Environment name.</param>
-    procedure GetEnvironmentOperations(CustomerNo: Code[20]; TenantID: Guid; EnvironmentName: Text[100])
+    procedure GetEnvironmentOperations(CustomerNo: Code[20]; TenantID: Guid; EnvironmentName: Text[100]; ShowMessage: Boolean)
     var
         BCTenant: Record "D4P BC Tenant";
         TenantNotFoundForCustomerErr: Label 'Tenant %1 not found for customer %2.', Comment = '%1 = Tenant ID, %2 = Customer No.';
@@ -31,10 +31,10 @@ codeunit 62025 "D4P BC Operations Helper"
         if not AdminAPIClient.Get(Endpoint, JsonResponse) then
             Error(OperationFetchErr, EnvironmentName);
 
-        ParseOperationsResponse(CustomerNo, Format(TenantID), JsonResponse, EnvironmentName);
+        ParseOperationsResponse(CustomerNo, Format(TenantID), JsonResponse, EnvironmentName, ShowMessage);
     end;
 
-    local procedure ParseOperationsResponse(CustomerNo: Code[20]; TenantID: Text[50]; JObject: JsonObject; EnvironmentName: Text[100])
+    local procedure ParseOperationsResponse(CustomerNo: Code[20]; TenantID: Text[50]; JObject: JsonObject; EnvironmentName: Text[100]; ShowMessage: Boolean)
     var
         OperationsRetrievedMsg: Label '%1 operation(s) retrieved successfully.', Comment = '%1 = Number of operations';
         JArray: JsonArray;
@@ -53,7 +53,8 @@ codeunit 62025 "D4P BC Operations Helper"
             InsertOperation(CustomerNo, TenantID, JToken.AsObject());
         end;
 
-        Message(OperationsRetrievedMsg, JArray.Count);
+        if ShowMessage and GuiAllowed then
+            Message(OperationsRetrievedMsg, JArray.Count);
     end;
 
     local procedure InsertOperation(CustomerNo: Code[20]; TenantID: Text[50]; JOperation: JsonObject)

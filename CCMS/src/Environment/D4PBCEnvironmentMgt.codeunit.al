@@ -1,5 +1,7 @@
 namespace D4P.CCMS.Environment;
 
+using D4P.CCMS.Auth;
+using D4P.CCMS.Capacity;
 using D4P.CCMS.Connector;
 using D4P.CCMS.Extension;
 using D4P.CCMS.Setup;
@@ -146,6 +148,97 @@ codeunit 62000 "D4P BC Environment Mgt"
                 BCEnvironment.Insert();
             end;
         end;
+
+        BCEnvironment.SetRange("Customer No.", BCTenant."Customer No.");
+        BCEnvironment.SetRange("Tenant ID", BCTenant."Tenant ID");
+        if BCEnvironment.FindSet() then
+            repeat
+                GetInstalledApps(BCEnvironment);
+                if BCEnvironment.State = 'Active' then
+                    GetAvailableAppUpdates(BCEnvironment, false);
+            until BCEnvironment.Next() = 0;
+    end;
+
+    procedure StartGetEnvironmentsBackground(var BCTenant: Record "D4P BC Tenant")
+    var
+        EnvironmentHelper: Codeunit "D4P BC Environment Helper";
+        SessionId: Integer;
+    begin
+        EnvironmentHelper.DeleteLocalTenantEnvironmentData(BCTenant."Customer No.", BCTenant."Tenant ID");
+        BCTenant."Get Environments Status" := BCTenant."Get Environments Status"::Pending;
+        BCTenant."Get Environments Last Run" := CurrentDateTime;
+        BCTenant."Get Environments Error" := '';
+        BCTenant.Modify();
+        Commit();
+        if not TryStartBackgroundSession(SessionId, BCTenant) then begin
+            BCTenant.Get(BCTenant."Customer No.", BCTenant."Tenant ID");
+            BCTenant."Get Environments Status" := BCTenant."Get Environments Status"::Error;
+            BCTenant."Get Environments Error" := CopyStr(GetLastErrorText(), 1, MaxStrLen(BCTenant."Get Environments Error"));
+            BCTenant."Get Environments Last Run" := CurrentDateTime;
+            BCTenant.Modify();
+            Commit();
+        end;
+    end;
+
+    procedure GetEnvironmentsAsBackgroundTask(var BCTenant: Record "D4P BC Tenant")
+    var
+        ErrorText: Text;
+    begin
+        if not TryGetEnvironmentsAndCapacity(BCTenant) then
+            ErrorText := CopyStr(GetLastErrorText(), 1, MaxStrLen(BCTenant."Get Environments Error"));
+
+        BCTenant.Get(BCTenant."Customer No.", BCTenant."Tenant ID");
+        if ErrorText = '' then
+            BCTenant."Get Environments Status" := BCTenant."Get Environments Status"::Completed
+        else
+            BCTenant."Get Environments Status" := BCTenant."Get Environments Status"::Error;
+        BCTenant."Get Environments Error" := ErrorText;
+        BCTenant."Get Environments Last Run" := CurrentDateTime;
+        BCTenant.Modify();
+        Commit();
+    end;
+
+    [TryFunction]
+    local procedure TryStartBackgroundSession(var SessionId: Integer; var BCTenant: Record "D4P BC Tenant")
+    begin
+        StartSession(SessionId, Codeunit::"D4P BC Env Backgr. Job", CompanyName, BCTenant);
+    end;
+
+    [TryFunction]
+    local procedure TryGetEnvironmentsAndCapacity(var BCTenant: Record "D4P BC Tenant")
+    var
+        AppSecretExpiryMgt: Codeunit "D4P BC App Secret Expiry Mgt";
+        CapacityHelper: Codeunit "D4P BC Capacity Helper";
+    begin
+        GetEnvironments(BCTenant);
+        CapacityHelper.GetCapacityDataInBackground(BCTenant."Customer No.", BCTenant."Tenant ID");
+        AppSecretExpiryMgt.GetApplicationSecretExpirations(BCTenant);
+    end;
+
+    procedure GetEnvironmentsTracked(var BCTenant: Record "D4P BC Tenant"; RaiseError: Boolean)
+    var
+        ErrorText: Text;
+    begin
+        if not TryGetEnvironments(BCTenant) then
+            ErrorText := CopyStr(GetLastErrorText(), 1, MaxStrLen(BCTenant."Get Environments Error"));
+
+        BCTenant.Get(BCTenant."Customer No.", BCTenant."Tenant ID");
+        if ErrorText = '' then
+            BCTenant."Get Environments Status" := BCTenant."Get Environments Status"::Completed
+        else
+            BCTenant."Get Environments Status" := BCTenant."Get Environments Status"::Error;
+        BCTenant."Get Environments Error" := ErrorText;
+        BCTenant."Get Environments Last Run" := CurrentDateTime;
+        BCTenant.Modify();
+
+        if RaiseError and (ErrorText <> '') then
+            Error(ErrorText);
+    end;
+
+    [TryFunction]
+    local procedure TryGetEnvironments(var BCTenant: Record "D4P BC Tenant")
+    begin
+        GetEnvironments(BCTenant);
     end;
 
     procedure GetAllInstalledApps(ShowProgressDialog: Boolean)
@@ -552,6 +645,15 @@ codeunit 62000 "D4P BC Environment Mgt"
             AppUpdateNotification.Send();
         end else
             Message(AppUpdateScheduledMsg, InstalledApp."App Name", InstalledApp."Available Update Version");
+    end;
+
+    [TryFunction]
+    procedure TryUpdateSelectedApp(var InstalledApp: Record "D4P BC Installed App"; UseEnvironmentUpdateWindow: Boolean)
+    var
+        BCEnvironment: Record "D4P BC Environment";
+    begin
+        BCEnvironment.Get(InstalledApp."Customer No.", InstalledApp."Tenant ID", InstalledApp."Environment Name");
+        UpdateApp(BCEnvironment, InstalledApp."App ID", true);
     end;
 
     procedure CreateNewBCEnvironment(var BCTenant: Record "D4P BC Tenant"; EnvironmentName: Text[100]; Localization: Code[2]; EnvironmentType: Enum "D4P Environment Type")
