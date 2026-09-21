@@ -12,6 +12,18 @@ codeunit 62000 "D4P BC Environment Mgt"
     var
         AdminAPIClient: Codeunit D4PBCAdminAPIClient;
 
+    // Job Queue entry point: no bound record, so it loops all non-blocked tenants itself.
+    trigger OnRun()
+    var
+        BCTenant: Record "D4P BC Tenant";
+    begin
+        BCTenant.SetRange(Blocked, false);
+        if BCTenant.FindSet() then
+            repeat
+                StartGetEnvironmentsBackground(BCTenant);
+            until BCTenant.Next() = 0;
+    end;
+
     procedure ShowDebugMessagePublic(ResponseText: Text; ActionName: Text)
     begin
         // Kept for backward compatibility - now handled by API Helper
