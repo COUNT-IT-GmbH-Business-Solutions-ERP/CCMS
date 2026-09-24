@@ -31,10 +31,10 @@ codeunit 62025 "D4P BC Operations Helper"
         if not AdminAPIClient.Get(Endpoint, JsonResponse) then
             Error(OperationFetchErr, EnvironmentName);
 
-        ParseOperationsResponse(CustomerNo, Format(TenantID), JsonResponse, EnvironmentName, ShowMessage);
+        ParseOperationsResponse(CustomerNo, Format(TenantID), BCTenant."Tenant Name", JsonResponse, EnvironmentName, ShowMessage);
     end;
 
-    local procedure ParseOperationsResponse(CustomerNo: Code[20]; TenantID: Text[50]; JObject: JsonObject; EnvironmentName: Text[100]; ShowMessage: Boolean)
+    local procedure ParseOperationsResponse(CustomerNo: Code[20]; TenantID: Text[50]; TenantName: Text[100]; JObject: JsonObject; EnvironmentName: Text[100]; ShowMessage: Boolean)
     var
         OperationsRetrievedMsg: Label '%1 operation(s) retrieved successfully.', Comment = '%1 = Number of operations';
         JArray: JsonArray;
@@ -50,14 +50,14 @@ codeunit 62025 "D4P BC Operations Helper"
 
         for i := 0 to JArray.Count - 1 do begin
             JArray.Get(i, JToken);
-            InsertOperation(CustomerNo, TenantID, JToken.AsObject());
+            InsertOperation(CustomerNo, TenantID, TenantName, JToken.AsObject());
         end;
 
         if ShowMessage and GuiAllowed then
             Message(OperationsRetrievedMsg, JArray.Count);
     end;
 
-    local procedure InsertOperation(CustomerNo: Code[20]; TenantID: Text[50]; JOperation: JsonObject)
+    local procedure InsertOperation(CustomerNo: Code[20]; TenantID: Text[50]; TenantName: Text[100]; JOperation: JsonObject)
     var
         Operation: Record "D4P BC Environment Operation";
         JToken: JsonToken;
@@ -73,6 +73,7 @@ codeunit 62025 "D4P BC Operations Helper"
         Operation.Init();
         Operation."Customer No." := CustomerNo;
         Operation."Tenant ID" := TenantID;
+        Operation."Tenant Name" := TenantName;
         Operation."Operation ID" := OperationID;
 
         // Get basic fields

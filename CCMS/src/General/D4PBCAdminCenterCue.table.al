@@ -153,7 +153,7 @@ table 62047 "D4P BC Admin Center Cue"
 
     procedure FilterFailedOperationsToday(var Operation: Record "D4P BC Environment Operation")
     begin
-        Operation.SetRange(Status, 'Failed');
+        Operation.SetRange(Status, 'failed');
         Operation.SetRange("Created On", CreateDateTime(Today(), 0T), CreateDateTime(Today(), 235959T));
     end;
 
@@ -162,6 +162,23 @@ table 62047 "D4P BC Admin Center Cue"
         Operation: Record "D4P BC Environment Operation";
     begin
         FilterFailedOperationsToday(Operation);
+        exit(Operation.Count());
+    end;
+
+    procedure FilterFailedOperationsInDays(var Operation: Record "D4P BC Environment Operation"; NoOfDays: Integer)
+    var
+        StartDate: DateTime;
+    begin
+        StartDate := CreateDateTime(CalcDate(StrSubstNo('<-%1D>', NoOfDays), Today()), 0T);
+        Operation.SetRange(Status, 'failed');
+        Operation.SetFilter("Created On", '%1..%2', StartDate, CreateDateTime(Today(), 235959T));
+    end;
+
+    procedure GetNumberOfFailedOperationsInDays(NoOfDays: Integer): Integer
+    var
+        Operation: Record "D4P BC Environment Operation";
+    begin
+        FilterFailedOperationsInDays(Operation, NoOfDays);
         exit(Operation.Count());
     end;
 }

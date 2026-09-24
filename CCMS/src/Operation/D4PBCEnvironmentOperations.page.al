@@ -21,6 +21,9 @@ page 62028 "D4P BC Environment Operations"
                 field("Customer No."; Rec."Customer No.")
                 {
                 }
+                field("Tenant Name"; Rec."Tenant Name")
+                {
+                }
                 field("Environment Name"; Rec."Environment Name")
                 {
                 }
