@@ -27,6 +27,11 @@ table 62025 "D4P BC Environment Operation"
             Caption = 'Tenant ID';
             ToolTip = 'Specifies the tenant ID.';
         }
+        field(25; "Tenant Name"; Text[100])
+        {
+            Caption = 'Tenant Name';
+            ToolTip = 'Specifies the name of the tenant.';
+        }
         field(30; "Environment Name"; Text[100])
         {
             Caption = 'Environment Name';

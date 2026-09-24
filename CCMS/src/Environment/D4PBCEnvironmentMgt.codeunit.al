@@ -4,6 +4,7 @@ using D4P.CCMS.Auth;
 using D4P.CCMS.Capacity;
 using D4P.CCMS.Connector;
 using D4P.CCMS.Extension;
+using D4P.CCMS.Operations;
 using D4P.CCMS.Setup;
 using D4P.CCMS.Tenant;
 
@@ -225,6 +226,20 @@ codeunit 62000 "D4P BC Environment Mgt"
         GetEnvironments(BCTenant);
         CapacityHelper.GetCapacityDataInBackground(BCTenant."Customer No.", BCTenant."Tenant ID");
         AppSecretExpiryMgt.GetApplicationSecretExpirations(BCTenant);
+        GetOperationsForAllEnvironments(BCTenant);
+    end;
+
+    local procedure GetOperationsForAllEnvironments(var BCTenant: Record "D4P BC Tenant")
+    var
+        BCEnvironment: Record "D4P BC Environment";
+        OperationsHelper: Codeunit "D4P BC Operations Helper";
+    begin
+        BCEnvironment.SetRange("Customer No.", BCTenant."Customer No.");
+        BCEnvironment.SetRange("Tenant ID", BCTenant."Tenant ID");
+        if BCEnvironment.FindSet() then
+            repeat
+                OperationsHelper.GetEnvironmentOperations(BCEnvironment."Customer No.", BCEnvironment."Tenant ID", BCEnvironment.Name, false);
+            until BCEnvironment.Next() = 0;
     end;
 
     procedure GetEnvironmentsTracked(var BCTenant: Record "D4P BC Tenant"; RaiseError: Boolean)
