@@ -105,6 +105,24 @@ page 62002 "D4P BC Tenant List"
                     CurrPage.Update(false);
                 end;
             }
+            action(SyncSelectedTenantForeground)
+            {
+                Caption = 'Sync selectedTenant (Foreground)';
+                Image = Refresh;
+                ToolTip = 'Runs the full environment, capacity, app secret, and operations sync for the selected tenant in the foreground.';
+
+                trigger OnAction()
+                var
+                    EnvironmentManagement: Codeunit "D4P BC Environment Mgt";
+                    ConfirmSyncMsg: Label 'This deletes locally stored environment data for tenant %1, including backups, sessions, features, and installed apps. Continue?', Comment = '%1 = Tenant ID';
+                begin
+                    if not Confirm(ConfirmSyncMsg, false, Rec."Tenant ID") then
+                        exit;
+
+                    EnvironmentManagement.GetEnvironmentsForeground(Rec);
+                    CurrPage.Update(false);
+                end;
+            }
             action(GetApplicationSecretExpirations)
             {
                 Caption = 'Get App Secret Expirations';
@@ -192,6 +210,9 @@ page 62002 "D4P BC Tenant List"
             {
                 Caption = 'Environment Tasks';
                 actionref(GetAllEnvironmentsPromoted; GetAllEnvironmentsBackground)
+                {
+                }
+                actionref(SyncSelectedTenantForegroundPromoted; SyncSelectedTenantForeground)
                 {
                 }
                 actionref(GetApplicationSecretExpirationsPromoted; GetApplicationSecretExpirations)

@@ -141,6 +141,17 @@ table 62019 "D4P BC Capacity Header"
             Caption = 'Sandbox Environments Available';
             ToolTip = 'Specifies the number of available sandbox environment slots.';
         }
+        field(60; "Customer Informed"; Boolean)
+        {
+            Caption = 'Customer Informed';
+            InitValue = false;
+            ToolTip = 'Specifies whether the customer has been informed about the tenant capacity situation.';
+        }
+        field(61; Reason; Text[250])
+        {
+            Caption = 'Reason';
+            ToolTip = 'Specifies the reason for high tenant capacity usage.';
+        }
     }
 
     keys

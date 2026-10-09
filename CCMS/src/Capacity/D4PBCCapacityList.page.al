@@ -30,6 +30,12 @@ page 62031 "D4P BC Capacity List"
                 {
                     DrillDown = false;
                 }
+                field("Customer Informed"; Rec."Customer Informed")
+                {
+                }
+                field(Reason; Rec.Reason)
+                {
+                }
                 field("Total Storage Used GB"; Rec."Total Storage Used GB")
                 {
                 }

@@ -615,6 +615,18 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC Capacity Header - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1725541246 - Field 4280577112 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies whether the customer has been informed about the tenant capacity situation.</source>
+          <target>Gibt an, ob der Kunde über die Kapazitätssituation des Tenants informiert wurde.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC Capacity Header - Field Customer Informed - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Table 1725541246 - Field 4280577112 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Customer Informed</source>
+          <target>Kunde informiert</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC Capacity Header - Field Customer Informed - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1725541246 - Field 1171137197 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the name of the customer.</source>
           <target>Gibt den Namen des Debitors an.</target>
@@ -698,6 +710,18 @@
           <target>Produktionsumgebungen verwendet</target>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC Capacity Header - Field Production Environments Used - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1725541246 - Field 3369789712 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the reason for high tenant capacity usage.</source>
+          <target>Gibt den Grund für die hohe Auslastung der Tenant-Kapazität an.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC Capacity Header - Field Reason - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Table 1725541246 - Field 3369789712 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reason</source>
+          <target>Grund</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC Capacity Header - Field Reason - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1725541246 - Field 1100570937 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the number of available sandbox environment slots.</source>
@@ -1100,6 +1124,12 @@
           <target>D365BC Kapazität</target>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Capacity Worksheet - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3216926189 - Control 1938233400 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Customer Communication</source>
+          <target>Kundenkommunikation</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Capacity Worksheet - Control CustomerCommunication - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3216926189 - Control 2202834866 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Environment quota usage</source>
@@ -2632,6 +2662,18 @@
           <target>Fehler beim Abrufen der Daten vom Endpunkt: %1</target>
           <note from="Developer" annotates="general" priority="2">%1 = Error message</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit D4P BC Environment Mgt - Method GetEnvironments - NamedType FailedToFetchErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 175239086 - Method 2211384565 - NamedType 1305737990" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Synchronizing tenant data...\Please wait.</source>
+          <target>Synchronisiere Tenant-Daten...\Bitte warten.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit D4P BC Environment Mgt - Method GetEnvironmentsForeground - NamedType ProcessingMsg</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 175239086 - Method 2211384565 - NamedType 773725837" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tenant synchronization completed successfully.</source>
+          <target>Tenant-Synchronisierung erfolgreich abgeschlossen.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit D4P BC Environment Mgt - Method GetEnvironmentsForeground - NamedType SyncCompletedMsg</note>
         </trans-unit>
         <trans-unit id="Codeunit 175239086 - Method 2781523979 - NamedType 1078089387" size-unit="char" translate="yes" xml:space="preserve">
           <source>Failed to fetch environment updates: %1</source>
@@ -6965,6 +7007,24 @@
           <target>Einrichten</target>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Tenant List - Action Setup - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1431185537 - Action 4285915931 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Runs the full environment, capacity, app secret, and operations sync for the selected tenant in the foreground.</source>
+          <target>Führt die vollständige Synchronisierung von Umgebung, Kapazität, App-Geheimnissen und Operationen für den ausgewählten Tenant im Vordergrund aus.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Tenant List - Action SyncSelectedTenantForeground - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1431185537 - Action 4285915931 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sync selectedTenant (Foreground)</source>
+          <target>Synchronisiere ausgewählten Tenant (Vordergrund)</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Tenant List - Action SyncSelectedTenantForeground - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1431185537 - Action 4285915931 - Method 1377591017 - NamedType 251246120" size-unit="char" translate="yes" xml:space="preserve">
+          <source>This deletes locally stored environment data for tenant %1, including backups, sessions, features, and installed apps. Continue?</source>
+          <target>Dies löscht lokal gespeicherte Umgebungsdaten für den Tenant %1, einschließlich Backups, Sitzungen, Funktionen und installierter Apps. Fortfahren?</target>
+          <note from="Developer" annotates="general" priority="2">%1 = Tenant ID</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Tenant List - Action SyncSelectedTenantForeground - Method OnAction - NamedType ConfirmSyncMsg</note>
         </trans-unit>
         <trans-unit id="Page 1431185537 - Action 2791522152 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Test if debug mode is working properly.</source>

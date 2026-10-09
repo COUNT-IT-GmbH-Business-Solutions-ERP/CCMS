@@ -45,7 +45,7 @@ codeunit 62025 "D4P BC Operations Helper"
         if not JObject.Get('value', JToken) then
             exit;
 
-        DeleteOperationsForEnvironment(CustomerNo, Format(TenantID), EnvironmentName);
+        DeleteOperationsForEnvironment(CustomerNo, TenantID, EnvironmentName);
 
         JArray := JToken.AsArray();
 
@@ -70,6 +70,9 @@ codeunit 62025 "D4P BC Operations Helper"
         // Get Operation ID
         if not GetJsonGuid(JOperation, 'id', OperationID) then
             exit;
+
+        if Operation.Get(OperationID) then
+            Operation.Delete(true);
 
         Operation.Init();
         Operation."Customer No." := CustomerNo;
@@ -142,21 +145,13 @@ codeunit 62025 "D4P BC Operations Helper"
         exit(0DT);
     end;
 
-    procedure DeleteOrphanedOperations(CustomerNo: Code[20]; TenantID: Guid)
+    procedure DeleteOperationsForTenant(CustomerNo: Code[20]; TenantID: Guid)
     var
-        BCEnvironment: Record "D4P BC Environment";
         EnvironmentOperation: Record "D4P BC Environment Operation";
     begin
         EnvironmentOperation.SetRange("Customer No.", CustomerNo);
         EnvironmentOperation.SetRange("Tenant ID", TenantID);
-        if EnvironmentOperation.FindSet(true) then
-            repeat
-                BCEnvironment.SetRange("Customer No.", CustomerNo);
-                BCEnvironment.SetRange("Tenant ID", TenantID);
-                BCEnvironment.SetRange(Name, EnvironmentOperation."Environment Name");
-                if BCEnvironment.IsEmpty() then
-                    EnvironmentOperation.Delete(true);
-            until EnvironmentOperation.Next() = 0;
+        EnvironmentOperation.DeleteAll(true);
     end;
 
     local procedure DeleteOperationsForEnvironment(CustomerNo: Code[20]; TenantID: Guid; EnvironmentName: Text[100])

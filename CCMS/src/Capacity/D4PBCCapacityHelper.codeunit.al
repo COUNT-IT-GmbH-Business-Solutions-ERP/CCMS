@@ -44,16 +44,15 @@ codeunit 62018 "D4P BC Capacity Helper"
         CapacityLine.SetRange("Tenant ID", TenantID);
         CapacityLine.DeleteAll();
 
-        // Delete existing capacity header
-        if CapacityHeader.Get(CustomerNo, TenantID) then
-            CapacityHeader.Delete();
-
-        // Create new header
-        CapacityHeader.Init();
-        CapacityHeader."Customer No." := CustomerNo;
-        CapacityHeader."Tenant ID" := TenantID;
+        // Create the header only when it does not exist, preserving manually maintained fields.
+        if not CapacityHeader.Get(CustomerNo, TenantID) then begin
+            CapacityHeader.Init();
+            CapacityHeader."Customer No." := CustomerNo;
+            CapacityHeader."Tenant ID" := TenantID;
+            CapacityHeader.Insert();
+        end;
         CapacityHeader."Last Update Date" := CurrentDateTime();
-        CapacityHeader.Insert();
+        CapacityHeader.Modify();
 
         // Get quotas
         GetQuotas(CapacityHeader, BCTenant);
