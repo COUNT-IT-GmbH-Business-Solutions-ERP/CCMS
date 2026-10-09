@@ -204,6 +204,20 @@ page 62034 "D4P BC Admin Center Cues"
                         Page.Run(Page::"D4P BC Environment Operations", Operation);
                     end;
                 }
+                field("Failed Operations (7 Days)"; FailedOperations7Days)
+                {
+                    Caption = 'Failed (7 Days)';
+                    Style = Unfavorable;
+                    ToolTip = 'Number of failed operations created in the last 7 days.';
+
+                    trigger OnDrillDown()
+                    var
+                        Operation: Record "D4P BC Environment Operation";
+                    begin
+                        Rec.FilterFailedOperationsInDays(Operation, 7);
+                        Page.Run(Page::"D4P BC Environment Operations", Operation);
+                    end;
+                }
             }
         }
     }
@@ -224,8 +238,9 @@ page 62034 "D4P BC Admin Center Cues"
         Updates14Days := Rec.GetNumberOfEnvironmentsForUpdates(14);
         AppSecretsExpiring30Days := Rec.GetNumberOfAppSecretsExpiringInDays(30);
         FailedOperationsToday := Rec.GetNumberOfFailedOperationsToday();
+        FailedOperations7Days := Rec.GetNumberOfFailedOperationsInDays(7);
     end;
 
     var
-        Updates7Days, Updates14Days, AppSecretsExpiring30Days, FailedOperationsToday : Integer;
+        Updates7Days, Updates14Days, AppSecretsExpiring30Days, FailedOperationsToday, FailedOperations7Days : Integer;
 }

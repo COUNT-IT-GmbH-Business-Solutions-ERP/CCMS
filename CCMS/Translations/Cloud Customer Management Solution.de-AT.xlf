@@ -4685,6 +4685,18 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Admin Center Cues - Control Operations - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1192667575 - Control 2588657752 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Number of failed operations created in the last 7 days.</source>
+          <target>Anzahl der in den letzten 7 Tagen erstellten fehlgeschlagenen Arbeitsgänge.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Admin Center Cues - Control Failed Operations (7 Days) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1192667575 - Control 2588657752 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Failed (7 Days)</source>
+          <target>Fehlgeschlagen (7 Tage)</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page D4P BC Admin Center Cues - Control Failed Operations (7 Days) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1192667575 - Control 35295814 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Number of failed operations created today.</source>
           <target>Anzahl der heute erstellten fehlgeschlagenen Arbeitsgänge.</target>
@@ -5141,6 +5153,18 @@
           <target>Tenant-ID</target>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC Environment Operation - Field Tenant ID - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3263097707 - Field 705672093 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the name of the tenant.</source>
+          <target>Gibt den Namen des Tenants an.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC Environment Operation - Field Tenant Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Table 3263097707 - Field 705672093 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tenant Name</source>
+          <target>Tenant Name</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table D4P BC Environment Operation - Field Tenant Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Codeunit 4214262675 - Method 2647952887 - NamedType 1558719015" size-unit="char" translate="yes" xml:space="preserve">
           <source>Tenant %1 not found for customer %2.</source>

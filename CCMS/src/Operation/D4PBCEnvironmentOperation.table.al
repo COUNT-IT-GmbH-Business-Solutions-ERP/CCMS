@@ -1,6 +1,7 @@
 namespace D4P.CCMS.Operations;
 
 using D4P.CCMS.Customer;
+using D4P.CCMS.Tenant;
 
 table 62025 "D4P BC Environment Operation"
 {
@@ -22,10 +23,18 @@ table 62025 "D4P BC Environment Operation"
             TableRelation = "D4P BC Customer"."No.";
             ToolTip = 'Specifies the customer number.';
         }
-        field(20; "Tenant ID"; Text[50])
+        field(20; "Tenant ID"; Guid)
         {
             Caption = 'Tenant ID';
             ToolTip = 'Specifies the tenant ID.';
+        }
+        field(25; "Tenant Name"; Text[100])
+        {
+            CalcFormula = lookup("D4P BC Tenant"."Tenant Name" where("Customer No." = field("Customer No."), "Tenant ID" = field("Tenant ID")));
+            Caption = 'Tenant Name';
+            Editable = false;
+            FieldClass = FlowField;
+            ToolTip = 'Specifies the name of the tenant.';
         }
         field(30; "Environment Name"; Text[100])
         {
