@@ -169,7 +169,7 @@ table 62047 "D4P BC Admin Center Cue"
     var
         StartDate: DateTime;
     begin
-        StartDate := CreateDateTime(CalcDate(StrSubstNo('<-%1D>', NoOfDays), Today()), 0T);
+        StartDate := CreateDateTime(CalcDate(StrSubstNo('<-%1D>', NoOfDays - 1), Today()), 0T);
         Operation.SetRange(Status, 'failed');
         Operation.SetFilter("Created On", '%1..%2', StartDate, CreateDateTime(Today(), 235959T));
     end;

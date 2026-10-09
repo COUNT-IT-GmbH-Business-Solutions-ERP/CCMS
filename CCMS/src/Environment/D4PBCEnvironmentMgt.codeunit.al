@@ -240,6 +240,7 @@ codeunit 62000 "D4P BC Environment Mgt"
             repeat
                 OperationsHelper.GetEnvironmentOperations(BCEnvironment."Customer No.", BCEnvironment."Tenant ID", BCEnvironment.Name, false);
             until BCEnvironment.Next() = 0;
+        OperationsHelper.DeleteOrphanedOperations(BCTenant."Customer No.", BCTenant."Tenant ID");
     end;
 
     procedure GetEnvironmentsTracked(var BCTenant: Record "D4P BC Tenant"; RaiseError: Boolean)

@@ -1,6 +1,7 @@
 namespace D4P.CCMS.Operations;
 
 using D4P.CCMS.Connector;
+using D4P.CCMS.Environment;
 using D4P.CCMS.Tenant;
 using System.Reflection;
 
@@ -31,10 +32,10 @@ codeunit 62025 "D4P BC Operations Helper"
         if not AdminAPIClient.Get(Endpoint, JsonResponse) then
             Error(OperationFetchErr, EnvironmentName);
 
-        ParseOperationsResponse(CustomerNo, Format(TenantID), BCTenant."Tenant Name", JsonResponse, EnvironmentName, ShowMessage);
+        ParseOperationsResponse(CustomerNo, TenantID, JsonResponse, EnvironmentName, ShowMessage);
     end;
 
-    local procedure ParseOperationsResponse(CustomerNo: Code[20]; TenantID: Text[50]; TenantName: Text[100]; JObject: JsonObject; EnvironmentName: Text[100]; ShowMessage: Boolean)
+    local procedure ParseOperationsResponse(CustomerNo: Code[20]; TenantID: Guid; JObject: JsonObject; EnvironmentName: Text[100]; ShowMessage: Boolean)
     var
         OperationsRetrievedMsg: Label '%1 operation(s) retrieved successfully.', Comment = '%1 = Number of operations';
         JArray: JsonArray;
@@ -50,14 +51,14 @@ codeunit 62025 "D4P BC Operations Helper"
 
         for i := 0 to JArray.Count - 1 do begin
             JArray.Get(i, JToken);
-            InsertOperation(CustomerNo, TenantID, TenantName, JToken.AsObject());
+            InsertOperation(CustomerNo, TenantID, JToken.AsObject());
         end;
 
         if ShowMessage and GuiAllowed then
             Message(OperationsRetrievedMsg, JArray.Count);
     end;
 
-    local procedure InsertOperation(CustomerNo: Code[20]; TenantID: Text[50]; TenantName: Text[100]; JOperation: JsonObject)
+    local procedure InsertOperation(CustomerNo: Code[20]; TenantID: Guid; JOperation: JsonObject)
     var
         Operation: Record "D4P BC Environment Operation";
         JToken: JsonToken;
@@ -73,7 +74,6 @@ codeunit 62025 "D4P BC Operations Helper"
         Operation.Init();
         Operation."Customer No." := CustomerNo;
         Operation."Tenant ID" := TenantID;
-        Operation."Tenant Name" := TenantName;
         Operation."Operation ID" := OperationID;
 
         // Get basic fields
@@ -142,7 +142,24 @@ codeunit 62025 "D4P BC Operations Helper"
         exit(0DT);
     end;
 
-    local procedure DeleteOperationsForEnvironment(CustomerNo: Code[20]; TenantID: Text; EnvironmentName: Text[100])
+    procedure DeleteOrphanedOperations(CustomerNo: Code[20]; TenantID: Guid)
+    var
+        BCEnvironment: Record "D4P BC Environment";
+        EnvironmentOperation: Record "D4P BC Environment Operation";
+    begin
+        EnvironmentOperation.SetRange("Customer No.", CustomerNo);
+        EnvironmentOperation.SetRange("Tenant ID", TenantID);
+        if EnvironmentOperation.FindSet(true) then
+            repeat
+                BCEnvironment.SetRange("Customer No.", CustomerNo);
+                BCEnvironment.SetRange("Tenant ID", TenantID);
+                BCEnvironment.SetRange(Name, EnvironmentOperation."Environment Name");
+                if BCEnvironment.IsEmpty() then
+                    EnvironmentOperation.Delete(true);
+            until EnvironmentOperation.Next() = 0;
+    end;
+
+    local procedure DeleteOperationsForEnvironment(CustomerNo: Code[20]; TenantID: Guid; EnvironmentName: Text[100])
     var
         BCEnvironmentOperation: Record "D4P BC Environment Operation";
     begin
