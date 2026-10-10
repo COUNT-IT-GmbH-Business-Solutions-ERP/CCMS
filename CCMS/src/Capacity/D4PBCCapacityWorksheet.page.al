@@ -9,7 +9,7 @@ page 62021 "D4P BC Capacity Worksheet"
     SourceTable = "D4P BC Capacity Header";
     Caption = 'D365BC Capacity';
     InsertAllowed = false;
-    ModifyAllowed = false;
+    ModifyAllowed = true;
     DeleteAllowed = true;
 
     layout
@@ -19,6 +19,7 @@ page 62021 "D4P BC Capacity Worksheet"
             group(GeneralInfo)
             {
                 Caption = 'General Information';
+                Editable = false;
                 field("Customer No."; Rec."Customer No.")
                 {
                 }
@@ -37,6 +38,7 @@ page 62021 "D4P BC Capacity Worksheet"
             group(StorageCapacityUsage)
             {
                 Caption = 'Storage capacity usage';
+                Editable = false;
                 field("Total Storage Used GB"; Rec."Total Storage Used GB")
                 {
                     StyleExpr = 'Strong';
@@ -61,6 +63,7 @@ page 62021 "D4P BC Capacity Worksheet"
             group(StorageCapacityBySource)
             {
                 Caption = 'Storage capacity, by source';
+                Editable = false;
                 field("Storage Default GB Display"; Rec."Storage Default GB")
                 {
                     Caption = 'Org (tenant) default';
@@ -83,6 +86,7 @@ page 62021 "D4P BC Capacity Worksheet"
             group(EnvironmentQuotaUsage)
             {
                 Caption = 'Environment quota usage';
+                Editable = false;
                 group(Production)
                 {
                     Caption = 'Production';
@@ -114,6 +118,16 @@ page 62021 "D4P BC Capacity Worksheet"
                     {
                         Caption = 'available';
                     }
+                }
+            }
+            group(CustomerCommunication)
+            {
+                Caption = 'Customer Communication';
+                field("Customer Informed"; Rec."Customer Informed")
+                {
+                }
+                field(Reason; Rec.Reason)
+                {
                 }
             }
             part(Lines; "D4P BC Capacity Subform")

@@ -89,16 +89,12 @@ codeunit 62002 "D4P BC Environment Helper"
 
     local procedure DeleteEnvironmentCapacityData(Environment: Record "D4P BC Environment")
     var
-        CapacityHeader: Record "D4P BC Capacity Header";
         CapacityLine: Record "D4P BC Capacity Line";
     begin
-        if CapacityHeader.Get(Environment."Customer No.", Format(Environment."Tenant ID")) then begin
-            CapacityLine.SetRange("Customer No.", Environment."Customer No.");
-            CapacityLine.SetRange("Tenant ID", Format(Environment."Tenant ID"));
-            if not CapacityLine.IsEmpty() then
-                CapacityLine.DeleteAll(true);
-
-            CapacityHeader.DeleteAll(true);
-        end;
+        CapacityLine.SetRange("Customer No.", Environment."Customer No.");
+        CapacityLine.SetRange("Tenant ID", Environment."Tenant ID");
+        CapacityLine.SetRange("Environment Name", Environment.Name);
+        if not CapacityLine.IsEmpty() then
+            CapacityLine.DeleteAll(true);
     end;
 }

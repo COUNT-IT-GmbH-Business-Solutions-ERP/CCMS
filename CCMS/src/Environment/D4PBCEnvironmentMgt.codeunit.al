@@ -172,6 +172,42 @@ codeunit 62000 "D4P BC Environment Mgt"
             until BCEnvironment.Next() = 0;
     end;
 
+    procedure GetEnvironmentsForeground(var BCTenant: Record "D4P BC Tenant")
+    var
+        ProgressDialog: Dialog;
+        ErrorText: Text;
+        ProcessingMsg: Label 'Synchronizing tenant data...\Please wait.';
+        SyncCompletedMsg: Label 'Tenant synchronization completed successfully.';
+    begin
+        BCTenant."Get Environments Status" := BCTenant."Get Environments Status"::Pending;
+        BCTenant."Get Environments Last Run" := CurrentDateTime;
+        BCTenant."Get Environments Error" := '';
+        BCTenant.Modify();
+        Commit();
+
+        if GuiAllowed then
+            ProgressDialog.Open(ProcessingMsg);
+        if not TryGetEnvironmentsAndCapacity(BCTenant, true) then
+            ErrorText := CopyStr(GetLastErrorText(), 1, MaxStrLen(BCTenant."Get Environments Error"));
+        if GuiAllowed then
+            ProgressDialog.Close();
+
+        BCTenant.Get(BCTenant."Customer No.", BCTenant."Tenant ID");
+        if ErrorText = '' then
+            BCTenant."Get Environments Status" := BCTenant."Get Environments Status"::Completed
+        else
+            BCTenant."Get Environments Status" := BCTenant."Get Environments Status"::Error;
+        BCTenant."Get Environments Error" := ErrorText;
+        BCTenant."Get Environments Last Run" := CurrentDateTime;
+        BCTenant.Modify();
+        Commit();
+
+        if ErrorText <> '' then
+            Error(ErrorText);
+        if GuiAllowed then
+            Message(SyncCompletedMsg);
+    end;
+
     procedure StartGetEnvironmentsBackground(var BCTenant: Record "D4P BC Tenant")
     var
         EnvironmentHelper: Codeunit "D4P BC Environment Helper";
@@ -197,7 +233,7 @@ codeunit 62000 "D4P BC Environment Mgt"
     var
         ErrorText: Text;
     begin
-        if not TryGetEnvironmentsAndCapacity(BCTenant) then
+        if not TryGetEnvironmentsAndCapacity(BCTenant, false) then
             ErrorText := CopyStr(GetLastErrorText(), 1, MaxStrLen(BCTenant."Get Environments Error"));
 
         BCTenant.Get(BCTenant."Customer No.", BCTenant."Tenant ID");
@@ -218,11 +254,14 @@ codeunit 62000 "D4P BC Environment Mgt"
     end;
 
     [TryFunction]
-    local procedure TryGetEnvironmentsAndCapacity(var BCTenant: Record "D4P BC Tenant")
+    local procedure TryGetEnvironmentsAndCapacity(var BCTenant: Record "D4P BC Tenant"; DeleteExistingData: Boolean)
     var
         AppSecretExpiryMgt: Codeunit "D4P BC App Secret Expiry Mgt";
         CapacityHelper: Codeunit "D4P BC Capacity Helper";
+        EnvironmentHelper: Codeunit "D4P BC Environment Helper";
     begin
+        if DeleteExistingData then
+            EnvironmentHelper.DeleteLocalTenantEnvironmentData(BCTenant."Customer No.", BCTenant."Tenant ID");
         GetEnvironments(BCTenant);
         CapacityHelper.GetCapacityDataInBackground(BCTenant."Customer No.", BCTenant."Tenant ID");
         AppSecretExpiryMgt.GetApplicationSecretExpirations(BCTenant);
@@ -236,11 +275,11 @@ codeunit 62000 "D4P BC Environment Mgt"
     begin
         BCEnvironment.SetRange("Customer No.", BCTenant."Customer No.");
         BCEnvironment.SetRange("Tenant ID", BCTenant."Tenant ID");
+        OperationsHelper.DeleteOperationsForTenant(BCTenant."Customer No.", BCTenant."Tenant ID");
         if BCEnvironment.FindSet() then
             repeat
                 OperationsHelper.GetEnvironmentOperations(BCEnvironment."Customer No.", BCEnvironment."Tenant ID", BCEnvironment.Name, false);
             until BCEnvironment.Next() = 0;
-        OperationsHelper.DeleteOrphanedOperations(BCTenant."Customer No.", BCTenant."Tenant ID");
     end;
 
     procedure GetEnvironmentsTracked(var BCTenant: Record "D4P BC Tenant"; RaiseError: Boolean)
@@ -539,8 +578,7 @@ codeunit 62000 "D4P BC Environment Mgt"
                 end else
                     if ShowMessage then
                         Message(NoSelectedUpdateMsg);
-            end
-            else
+            end else
                 if ShowMessage then
                     Message(NoAvailableUpdatesMsg);
         end else
