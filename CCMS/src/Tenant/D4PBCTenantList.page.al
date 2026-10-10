@@ -107,7 +107,7 @@ page 62002 "D4P BC Tenant List"
             }
             action(SyncSelectedTenantForeground)
             {
-                Caption = 'Sync selectedTenant (Foreground)';
+                Caption = 'Sync selected Tenant (Foreground)';
                 Image = Refresh;
                 ToolTip = 'Runs the full environment, capacity, app secret, and operations sync for the selected tenant in the foreground.';
 
